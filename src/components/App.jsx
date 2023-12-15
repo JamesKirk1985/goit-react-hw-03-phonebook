@@ -16,6 +16,19 @@ export class App extends Component {
     filter: '',
     counter: 0
   }
+  componentDidMount()  {
+    const storageContact = localStorage.getItem('contacts')   
+    if (storageContact && storageContact.length>0) 
+    {this.setState({ contacts: JSON.parse(storageContact) })}    
+  }
+
+  componentDidUpdate(prevProps, prevState) {    
+    if (prevState.contacts.length !== this.state.contacts.length) {      
+  localStorage.setItem("contacts", JSON.stringify(this.state.contacts))
+    }
+  }
+  
+ 
 
   addContact = (contactObj) => {       
 
@@ -47,7 +60,8 @@ export class App extends Component {
   }
 
 
-  render() {
+render() {
+  
     return (    
       <div>
         <ContactForm addContact={this.addContact} />
